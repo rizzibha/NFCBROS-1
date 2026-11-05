@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --color-ink: #0a0a0a;
+  --color-ink-60: #14120f;
+  --color-paper: #f7f7f7;
+  --color-paper-2: #ebebeb;
+  --color-rule: #fff;
+  --color-thread: #bf281a;
+  --color-thread-dim: rgba(191, 40, 26, 0.4);
+  --color-thread-bright: rgba(191, 40, 26, 0.8);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+/* Subtle grain/noise texture */
+.bg-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: var(--color-paper-2); border-radius: 999px; opacity: 0.2; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb:hover { opacity: 0.4; }
+
+/* Selection */
+::selection {
+  background: var(--color-thread);
+  color: var(--color-paper);
+}
+
+/* Focus visible */
+:focus-visible {
+  outline: 2px solid var(--color-thread);
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes pulseThread {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-thread-dim); }
+  50% { box-shadow: 0 0 0 8px transparent; }
+}
+
+.animate-fadeUp {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-floatSlow {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+.animate-pulseThread {
+  animation: pulseThread 3s ease-in-out infinite;
+}
+
+/* Delayed animations */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Card hover */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--color-thread-dim);
+  border-color: var(--color-thread);
+}
+
+/* Thread accent line */
+.thread-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-thread), transparent);
+}
+
+/* Logo container */
+.logo-wrap {
+  background: var(--color-paper);
+  border-radius: 16px;
+  padding: 4px;
+}
