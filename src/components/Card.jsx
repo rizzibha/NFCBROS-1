@@ -1,11 +1,8 @@
-import React from "react";
-
-// Inline SVG logos for reliability
-const Logo = ({ name, className = "w-6 h-6", fill = "currentColor" }) => {
+const Logo = ({ name }) => {
   switch (name) {
     case "instagram":
       return (
-        <svg className={className} viewBox="0 0 24 24" fill={fill} aria-hidden="true">
+        <svg className="link-icon instagram-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <defs>
             <linearGradient id="igGradient" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#F58529" />
@@ -18,7 +15,7 @@ const Logo = ({ name, className = "w-6 h-6", fill = "currentColor" }) => {
       );
     case "whatsapp":
       return (
-        <svg className={className} viewBox="0 0 24 24" fill={fill} aria-hidden="true">
+        <svg className="link-icon whatsapp-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <defs>
             <linearGradient id="waGradient" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#25D366" />
@@ -28,104 +25,61 @@ const Logo = ({ name, className = "w-6 h-6", fill = "currentColor" }) => {
           <path fill="url(#waGradient)" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.573-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.99c-.002 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.05 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
         </svg>
       );
-    case "google":
     case "website":
+      return (
+        <svg className="link-icon website-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+        </svg>
+      );
+    case "google":
     default:
       return (
-        <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+        <svg className="link-icon" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
           <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
           <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z" />
           <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
         </svg>
       );
-  }
+  };
 };
 
-export function Card({ href, brand, title, subtitle, isPrimary = false }) {
-  const isWebsite = brand === "website";
+export function Card({ href, brand, title, subtitle }) {
+  const setWaveOrigin = (event) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    event.currentTarget.style.setProperty("--wave-x", `${event.clientX - bounds.left}px`);
+    event.currentTarget.style.setProperty("--wave-y", `${event.clientY - bounds.top}px`);
+  };
 
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex items-center gap-4 rounded-[16px] overflow-hidden card-hover ${
-        isPrimary ? "primary-card" : "secondary-card"
-      }`}
-      style={{
-        // CSS variables will handle colors
-      }}
+      className={`link-card link-card-${brand}`}
+      onPointerEnter={setWaveOrigin}
+      onPointerMove={setWaveOrigin}
     >
-      {/* Background glow on hover for primary */}
-      {isPrimary && (
-        <span
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 animate-pulseThread"
-          style={{ background: "var(--color-thread)" }}
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Logo box - 48x48px rounded-square */}
-      <span
-        className="relative shrink-0 transition-transform duration-300 group-hover:scale-105 flex-shrink-0"
-        style={{
-          width: "48px",
-          height: "48px",
-          borderRadius: "12px",
-          display: "grid",
-          placeItems: "center",
-          backgroundColor: isPrimary ? "var(--color-ink)" : "var(--color-ink-60)",
-        }}
-      >
-        <Logo
-          name={brand}
-          className="w-7 h-7 transition-transform duration-300 group-hover:rotate-[-3deg]"
-          fill={isPrimary ? "var(--color-thread)" : "var(--color-paper)"}
-        />
+      <span className="icon-box">
+        <Logo name={brand} />
       </span>
-
-      {/* Text */}
-      <span className="relative flex flex-col text-left min-w-0 flex-1">
-        <span
-          className="text-base sm:text-lg font-bold tracking-tight uppercase"
-          style={{ color: isPrimary ? "var(--color-ink)" : "var(--color-paper)" }}
-        >
-          {title}
-        </span>
-        <span
-          className="text-sm mt-0.5 transition-colors duration-200 group-hover:opacity-100 font-mono tracking-wider"
-          style={{ color: isPrimary ? "rgba(10,10,10,0.6)" : "var(--color-paper-2)" }}
-        >
-          {subtitle}
-        </span>
+      <span className="link-copy">
+        <span className="link-title">{title}</span>
+        <span className="link-subtitle">{subtitle}</span>
       </span>
-
-      {/* Arrow */}
-      <span className="relative ml-auto grid place-items-center transition-transform duration-300 group-hover:translate-x-1">
+      <span className="link-arrow" aria-hidden="true">
         <svg
-          width="20"
-          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2.5"
+          strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"
-          style={{ color: isPrimary ? "var(--color-ink)" : "var(--color-paper-2)" }}
-          aria-hidden="true"
         >
-          <path d="M5 12h14M13 6l6 6-6 6" />
+          <path d="M7 17 17 7M7 7h10v10" />
         </svg>
       </span>
-
-      {/* Border accent for secondary cards on hover */}
-      {!isPrimary && (
-        <span
-          className="pointer-events-none absolute inset-0 rounded-[16px] border border-transparent transition-all duration-300 group-hover:border-[var(--color-thread-dim)]"
-          aria-hidden="true"
-        />
-      )}
     </a>
   );
 }
